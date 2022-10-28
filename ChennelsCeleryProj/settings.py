@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     'mainApp.apps.MainappConfig',
     'notifications_app.apps.NotificationAppConfig',
+    'channels'
 ]
 
 MIDDLEWARE = [
@@ -58,6 +59,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "ChennelsCeleryProj.wsgi.application"
+ASGI_APPLICATION = "ChennelsCeleryProj.asgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
@@ -114,3 +116,12 @@ STATICFILES_DIRS = [
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
+}
