@@ -17,12 +17,13 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ChennelsCeleryProj.settings")
 django.setup()
 
 from channels.auth import AuthMiddlewareStack
+from notifications_app.routings import websocket_urlpatterns
 
 application = ProtocolTypeRouter({
     "http": get_asgi_application(),
     "websocket": AuthMiddlewareStack(
         URLRouter(
-            websocket_urlpatterns,
+            websocket_urlpatterns
         )
     )
 })
