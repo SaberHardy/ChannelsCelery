@@ -18,6 +18,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    "daphne",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -26,7 +27,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     'mainApp.apps.MainappConfig',
     'notifications_app.apps.NotificationAppConfig',
-    'channels'
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -58,7 +59,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "ChennelsCeleryProj.wsgi.application"
+# WSGI_APPLICATION = "ChennelsCeleryProj.wsgi.application"
 ASGI_APPLICATION = "ChennelsCeleryProj.asgi.application"
 
 # Database

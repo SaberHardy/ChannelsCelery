@@ -133,7 +133,7 @@
 <script>
     const roomName = JSON.parse(document.getElementById('room-name').textContent);
 
-    const chatSocket = new WebSocket(
+    const notificationSocket = new WebSocket(
         'ws://'
         + window.location.host
         + '/ws/notification/'
@@ -141,12 +141,15 @@
         + '/'
     );
 
-    chatSocket.onmessage = function (e) {
+    notificationSocket.onmessage = function (e) {
         const data = JSON.parse(e.data);
-        {#document.querySelector('#notification-log').value += (data.message + '\n');#}
+        //document.querySelector('#chat-log').value += (data.message + '\n');
+        console.log(data);
+        document.getElementById("notifications-dropdown").innerHTML = "<li class='dropdown-item'>" + data + "</li><hr class='dropdown-divider'>" + document.getElementById("notifications-dropdown").innerHTML;
+        document.getElementById("notification-badge").innerHTML = parseInt(document.getElementById("notification-badge").innerHTML) + 1;
     };
 
-    chatSocket.onclose = function (e) {
+    notificationSocket.onclose = function (e) {
         console.error('Chat socket closed unexpectedly');
     };
 

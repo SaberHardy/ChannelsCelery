@@ -1,6 +1,5 @@
-import json
-
 from channels.generic.websocket import AsyncWebsocketConsumer
+import json
 
 
 class NotificationConsumer(AsyncWebsocketConsumer):
@@ -32,8 +31,8 @@ class NotificationConsumer(AsyncWebsocketConsumer):
     #     )
     #
     # Receive message from room group
-    async def chat_message(self, event):
+    async def send_notification(self, event):
         message = event["message"]
 
         # Send message to WebSocket
-        await self.send(text_data=json.dumps({"message": message}))
+        await self.send(text_data=json.dumps(message))
