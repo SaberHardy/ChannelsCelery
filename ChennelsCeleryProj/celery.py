@@ -7,16 +7,18 @@ from celery.schedules import crontab
 from datetime import datetime, timedelta
 
 # set the default Django settings module for the 'celery' program.
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'channels_celery_project.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ChennelsCeleryProj.settings')
 
-app = Celery('channels_celery_project')
+app = Celery('ChennelsCeleryProj')
 app.conf.enable_utc = False
-app.conf.update(timezone='Asia/Kolkata')
+app.conf.update(timezone='Africa/Algeria')
 
 app.config_from_object(settings, namespace='CELERY')
 
 app.conf.beat_schedule = {
 }
+
+# app.loader.override_backends['django-db'] = 'django_celery_results.backends.database:DatabaseBackend'
 
 # app.conf.timezone = 'UTC'
 

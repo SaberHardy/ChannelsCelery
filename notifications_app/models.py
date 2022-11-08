@@ -1,6 +1,8 @@
+import json
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django_celery_beat.models import CrontabSchedule, PeriodicTask
 
 
 class BroadcastNotification(models.Model):
@@ -14,4 +16,14 @@ class BroadcastNotification(models.Model):
 
 @receiver(post_save, sender=BroadcastNotification)
 def notification_handler(sender, instance, created, **kwargs):
-    pass
+    # call group_send function directly to send notifications, or you can create a dynamic task in celery beat
+    # this will be true only when we create a new record in our database.
+
+    if created:
+        schedule, created = CrontabSchedule.objects.get_or_create(hour=instance.broadcast_on.hour,
+                                                                  minute=instance.broadcast_on.minute,
+                                                                  day_of_month=instance.broadcast_on.day,
+                                                                  month_of_year=instance.broadcast_on.month)
+        task = PeriodicTask.objects.create(crontab=schedule, name="broadcast-notification-" + str(instance.id),
+                                           task="notifications_app.tasks.broadcast_notification",
+                                           args=json.dumps((instance.id,)))
